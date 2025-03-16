@@ -21,6 +21,66 @@ The simulator is part of a modular architecture designed for real-time hardware-
 ## 📂 Folder Structure
 Here's how the project files are organized:
 
+## 🖥️ Serial Commands
+
+Use the Arduino IDE Serial Monitor to interact with the simulator:
+
+| Command             | Example                  | Description                                      |
+|---------------------|--------------------------|--------------------------------------------------|
+| **Start simulation**    | `start`                | Starts real-time simulation                     |
+| **Stop simulation**     | `stop`                   | Stops simulation                                 |
+| **Configure patient**   | `patient M 75 175 30`     | Sets patient sex, weight (kg), height (cm), age (years) |
+| **Generate patient** | `generate_patient`        | Creates random patient parameters                |
+| **Clinical challenge**| `challenge 1`             | Activates a clinical scenario (0–5)              |
+
+** 🚨 Clinical challenges available:**
+
+Use these challenges to simulate realistic physiological scenarios and test the robustness of your anesthesia controller:
+
+- `0`: **Normal conditions** — Baseline simulation without any disturbances (default).
+- `1`: **Hemorrhage** — Simulates blood loss, reducing central compartment volume and increasing drug elimination.
+- `2`: **Vasodilation** — Increases blood vessel volume, changing the drug's distribution and reducing concentration effectiveness.
+- `3`: **Vasoconstriction** — Decreases blood vessel volume and reduces drug equilibration speed, increasing drug concentration responsiveness.
+- `4`: **Vasoactive Drugs** — Simulates administration of drugs altering cardiovascular response, affecting distribution and maximum drug effect.
+- `5`: **Neuronal Instability** — Reduces brain sensitivity, decreasing baseline BIS responsiveness to the anesthetic, representing challenging neurological scenarios.
+
+## 🚀 How to Run: Arduino
+
+Follow these steps to run the simulation using an Arduino-compatible board:
+
+### 🛠️ Requirements:
+
+- Arduino IDE ([download here](https://www.arduino.cc/en/software))
+- Arduino-compatible microcontroller (e.g., Arduino Uno, Mega, Nano)
+- USB cable for Arduino connection
+
+### ⚙️ Setup Instructions:
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/simethesia-simulator.git
+    ```
+
+2. **Open the Arduino IDE.**
+
+3. **Load the Simulator code:**
+    - Go to `File → Open`.
+    - Navigate to the project folder and select the main Arduino file (`src/main.ino`).
+
+4. **Connect your Arduino board via USB:**
+    - Select the correct port: `Tools → Port`.
+    - Choose your Arduino board model: `Tools → Board`.
+
+5. **Upload the sketch:**
+    - Click the upload button (➡️).
+
+6. **Start Simulation:**
+    - Open the Arduino Serial Monitor (`Tools → Serial Monitor`), set baud rate to `115200`.
+    - Use serial commands (e.g., `start`) or control the simulation directly from the **Simethesia App**.
+
+Now you're ready! 🎉 You can interact with the simulation via Arduino’s serial commands or conveniently from your mobile app.
+
+
 ## 🧪 Discrete-Time PK/PD Models (Euler method)
 
 The simulator uses Euler discretization to numerically solve continuous-time equations, introducing a small computational delay equal to the sampling interval (Ts):
@@ -101,68 +161,6 @@ The discretized equations used in this simulation introduce a computational dela
 This occurs because variables calculated at step `[k+1]` depend explicitly on values from the previous step `[k]`, placing the results one sampling step into the future.
 
 This one-step delay (`Ts`) accurately represents the inherent computational delay observed in real-world digital control systems. When developing and testing your control algorithms, remember to account for this delay to ensure accurate performance evaluation and realistic simulation outcomes.
-
-
-## 🖥️ Serial Commands
-
-Use the Arduino IDE Serial Monitor to interact with the simulator:
-
-| Command             | Example                  | Description                                      |
-|---------------------|--------------------------|--------------------------------------------------|
-| **Start simulation**    | `start`                | Starts real-time simulation                     |
-| **Stop simulation**     | `stop`                   | Stops simulation                                 |
-| **Configure patient**   | `patient M 75 175 30`     | Sets patient sex, weight (kg), height (cm), age (years) |
-| **Generate patient** | `generate_patient`        | Creates random patient parameters                |
-| **Clinical challenge**| `challenge 1`             | Activates a clinical scenario (0–5)              |
-
-** 🚨 Clinical challenges available:**
-
-Use these challenges to simulate realistic physiological scenarios and test the robustness of your anesthesia controller:
-
-- `0`: **Normal conditions** — Baseline simulation without any disturbances (default).
-- `1`: **Hemorrhage** — Simulates blood loss, reducing central compartment volume and increasing drug elimination.
-- `2`: **Vasodilation** — Increases blood vessel volume, changing the drug's distribution and reducing concentration effectiveness.
-- `3`: **Vasoconstriction** — Decreases blood vessel volume and reduces drug equilibration speed, increasing drug concentration responsiveness.
-- `4`: **Vasoactive Drugs** — Simulates administration of drugs altering cardiovascular response, affecting distribution and maximum drug effect.
-- `5`: **Neuronal Instability** — Reduces brain sensitivity, decreasing baseline BIS responsiveness to the anesthetic, representing challenging neurological scenarios.
-
-## 🚀 How to Run: Arduino
-
-Follow these steps to run the simulation using an Arduino-compatible board:
-
-### 🛠️ Requirements:
-
-- Arduino IDE ([download here](https://www.arduino.cc/en/software))
-- Arduino-compatible microcontroller (e.g., Arduino Uno, Mega, Nano)
-- USB cable for Arduino connection
-
-### ⚙️ Setup Instructions:
-
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/simethesia-simulator.git
-    ```
-
-2. **Open the Arduino IDE.**
-
-3. **Load the Simulator code:**
-    - Go to `File → Open`.
-    - Navigate to the project folder and select the main Arduino file (`src/main.ino`).
-
-4. **Connect your Arduino board via USB:**
-    - Select the correct port: `Tools → Port`.
-    - Choose your Arduino board model: `Tools → Board`.
-
-5. **Upload the sketch:**
-    - Click the upload button (➡️).
-
-6. **Start Simulation:**
-    - Open the Arduino Serial Monitor (`Tools → Serial Monitor`), set baud rate to `115200`.
-    - Use serial commands (e.g., `start`) or control the simulation directly from the **Simethesia App**.
-
-Now you're ready! 🎉 You can interact with the simulation via Arduino’s serial commands or conveniently from your mobile app.
-
-
 
 ## 🎓 Who Is This For?
 
