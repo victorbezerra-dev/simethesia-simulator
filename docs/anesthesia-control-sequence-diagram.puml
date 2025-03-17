@@ -1,0 +1,37 @@
+@startuml
+title Sequence Diagram – Real-Time Propofol Infusion Simulation and Control
+
+actor "User" as User
+participant "Mobile Application" as App
+participant "Bluetooth ↔ Serial Bridge" as Bridge
+participant "Patient Simulator (Arduino)" as Simulator
+participant "Infusion Controller (Arduino)" as Controller
+
+group Patient Setup
+    alt Configuration via App (Bluetooth)
+        User -> App : Configure patient and challenge
+        App -> Bridge : Send command via Bluetooth
+        Bridge -> Simulator : Forward command via Serial (USB)
+    else Configuration via USB
+        User -> Simulator : Send command via Serial Monitor
+    end
+
+    Simulator -> Simulator : Apply PK/PD parameters
+end
+
+group Real-Time Control Loop (every 100 ms)
+    Controller -> Simulator : Request BIS (I²C)
+    Simulator --> Controller : Return BIS value
+    Controller -> Controller : Compute control error (r - BIS)\nApply PI algorithm
+    Controller -> Simulator : Send new infusion rate (u)
+    Simulator -> Simulator : Update PK/PD model\nCompute new BIS
+
+    par Log to User Interfaces
+        Simulator -> User : Serial log: BIS, u, t
+        Simulator -> Bridge : Bluetooth log: BIS, u, t
+        Bridge -> App : Forward logs
+        App -> User : Display BIS and infusion status
+    end
+end
+
+@enduml
