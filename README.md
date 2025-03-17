@@ -80,6 +80,61 @@ Follow these steps to run the simulation using an Arduino-compatible board:
 
 Now you're ready! 🎉 You can interact with the simulation via Arduino’s serial commands or conveniently from your mobile app.
 
+## 🔗 How to Run the Bridge (Arduino Patient Simulator ↔ Mobile App)
+To enable communication between the **mobile application** and the **Arduino Patient Simulator**, you need to run a Python script that acts as a **serial bridge**.  
+This allows Bluetooth commands from the mobile app to reach the simulator — and simulator feedback (e.g., BIS, infusion rate) to return to the app.
+
+### ✅ Requirements
+
+- Python **3.7+**
+- Arduino board connected via USB and running the simulator firmware
+- Mobile app 
+
+#### 📦 Install Python dependencies
+
+```bash
+pip install pyserial
+```
+### 🚀 Steps to Run
+
+1. **Pair your phone with your PC via Bluetooth.**
+2. **Connect your Arduino to the PC via USB.**
+3. **Clone or navigate to the folder with the bridge script:**
+   ```bash
+   git clone https://github.com/your-org/your-repo.git
+   cd your-repo
+   ```
+4. Run the Python bridge script:
+```bash
+    python bluetooth_serial_bridge.py
+```
+
+The script will attempt to auto-detect:
+
+- 🔵 The **Bluetooth serial port** (e.g., `COM7`, `/dev/rfcomm0`)
+- 🟢 The **Arduino USB port** (e.g., `COM10`, `/dev/ttyUSB0`)
+
+If the ports are **not detected automatically**, the script will prompt you to **enter them manually**.
+
+> 💡 Alternatively, you can set the ports manually by editing the script:
+>
+> Open `bluetooth_serial_bridge.py` and replace the auto-detection with hardcoded values, for example:
+>
+> ```python
+>bt_port = find_port("COM_NUMBER") 
+>arduino_port = find_port("COM_NUMBER")
+> ```
+5. Send commands such as:
+```bash
+start
+patient M 75 180 30
+challenge 1
+```
+6. You will see logs printed both:
+
+ * On your phone screen
+ * In the Python terminal
+
 
 ## 🧪 Discrete-Time PK/PD Models (Euler method)
 
@@ -169,7 +224,6 @@ This one-step delay (`Ts`) accurately represents the inherent computational dela
 - **Researchers:** Validate and refine new control algorithms safely before clinical application.
 - **Medical enthusiasts:** Safely experiment and gain insights into anesthesia control and patient dynamics.
 
-- 
 ## 🤝 Contributing
 
 Contributions are welcome! Help us grow by:
