@@ -40,16 +40,30 @@
 
 #include <Wire.h>
 
-float c1 = 0, c2 = 0, c3 = 0, ce = 0;
+float c1 = 0;
+float c2 = 0;
+float c3 = 0;
+float ce = 0;
 float BIS = 100;
 float infusionRate = 8.75;
-
-float ke0 = 0.456, gamma = 2.69, ce50 = 4.92, E0 = 95.9, Emax = 87.5;
-float k10, k12, k13, k21, k31;
-float V1 = 4.27, V2, V3 = 238;
+float ke0 = 0.456;
+float gamma = 2.69;
+float ce50 = 4.92;
+float E0 = 95.9;
+float Emax = 87.5;
+float k10;
+float k12;
+float k13;
+float k21;
+float k31;
+float V1 = 4.27;
+float V2;
+float V3 = 238;
 float sampleTime = 0.1;
+float weight = 75.0;
+float height = 175.0;
+float age = 30.0;
 
-float weight = 75.0, height = 175.0, age = 30.0;
 char sex = 'M';
 
 unsigned long lastUpdate = 0;
@@ -62,6 +76,7 @@ float ke0_base = 0.456;
 float E0_base = 95.9;
 float Emax_base = 87.5;
 float k10_base;
+
 
 void applyChallenge(int challenge) {
   V1 = V1_base;
